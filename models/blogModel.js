@@ -1,18 +1,17 @@
-import { ObjectId } from "mongodb";
 import { Schema, model, models } from "mongoose";
 
 const blogSchema = new Schema(
   {
     deltaOne: { type: String, required: true },
-    deltaTwo: { type: String, required: true },
+    deltaTwo: { type: String, required: false },
     userId: { type: String, required: true },
     comments: [
       {
-        userId: { type: "ObjectId", ref: "user" },
+        userId: String,
         comment: String,
       },
     ],
-    likes: [{ type: "ObjectId", ref: "user" }],
+    likes: [String],
   },
   { timestamps: true },
 );
