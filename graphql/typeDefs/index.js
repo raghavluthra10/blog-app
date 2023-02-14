@@ -23,6 +23,8 @@ const typeDefs = /* GraphQL */ `
     userId: String
     comments: [Comment]
     likes: [String]
+    createdAt: String
+    updatedAt: String
   }
 
   type Query {
