@@ -32,6 +32,7 @@ const typeDefs = /* GraphQL */ `
     usersBlogs(_id: String): [Blog]
     usersBlog(_id: String): Blog
     blogs: [Blog]
+    users: [User]
   }
 
   input SignupInput {
@@ -51,8 +52,14 @@ const typeDefs = /* GraphQL */ `
     deltaTwo: String
   }
 
+  input LoginInput {
+    email: String
+    password: String
+  }
+
   type Mutation {
     signup(input: SignupInput): User
+    login(input: LoginInput): Boolean
     addBlog(input: AddBlogInput): Blog
     deleteBlog(_id: String): Boolean
     updateBlog(input: UpdateBlogInput): Blog

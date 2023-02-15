@@ -10,8 +10,9 @@ const schema = createSchema({
 
 export default createYoga({
   schema,
-  context: {
-    db: connectMongodb(),
+  context: () => {
+    connectMongodb();
+    return {};
   },
   graphqlEndpoint: "/api/graphql",
 });
