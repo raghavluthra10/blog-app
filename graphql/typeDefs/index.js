@@ -7,6 +7,8 @@ const typeDefs = /* GraphQL */ `
     name: String
     email: String
     password: String
+    image: String
+    emailVerified: Boolean
     createdAt: String
     updatedAt: String
   }

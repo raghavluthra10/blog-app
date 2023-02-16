@@ -1,9 +1,8 @@
 import React from "react";
-import { useSession, signIn, signOut } from "next-auth/react";
+import { signIn, signOut, getSession } from "next-auth/react";
 
-const Login = () => {
-  const { data: session } = useSession();
-  console.log("session =>", session);
+const Login = ({ session }) => {
+  console.log("session from login page=>", session);
   if (session) {
     return (
       <>
@@ -12,6 +11,7 @@ const Login = () => {
       </>
     );
   }
+
   return (
     <>
       Not signed in <br />
@@ -21,3 +21,11 @@ const Login = () => {
 };
 
 export default Login;
+
+export async function getServerSideProps(context) {
+  const session = await getSession(context);
+
+  return {
+    props: { session },
+  };
+}
