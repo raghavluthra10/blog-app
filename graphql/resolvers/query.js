@@ -2,6 +2,7 @@ import User from "@/models/userModel";
 import Blog from "@/models/blogModel";
 import axios from "axios";
 import { GraphQLError } from "graphql";
+import validateUser from "@/utils/validateUser";
 
 const queries = {
   async user(parent, args, _context) {
@@ -15,15 +16,16 @@ const queries = {
     const blogs = await Blog.find();
     return blogs;
   },
-  async usersBlogs(parent, args) {
-    const { _id } = args;
+  async usersAllBlogs(parent, args) {
+    const { userId } = args;
     const usersAllBlogs = await Blog.find({
-      userId: _id,
+      userId: userId,
     });
 
     return usersAllBlogs;
   },
-  async usersBlog(parent, args) {
+  async usersSingleBlog(parent, args, context) {
+    validateUser(context);
     const { _id } = args;
     const blogId = 1;
     const usersDesiredBlog = await Blog.find({
@@ -33,12 +35,8 @@ const queries = {
     return usersDesiredBlog;
   },
   async users(parent, args, context) {
-    // context.hea
-    const { session } = context;
-    if (!session) {
-      throw new GraphQLError("login to get access to this resource");
-    }
-    console.log("session users Query ->", session);
+    validateUser(context);
+
     const getAllUsers = await User.find({});
     return getAllUsers;
   },

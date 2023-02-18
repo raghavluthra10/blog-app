@@ -3,24 +3,57 @@ import Blog from "@/models/blogModel";
 import { Jwt } from "jsonwebtoken";
 import bcrypt from "bcrypt";
 import { GraphQLError } from "graphql";
+import { signIn } from "next-auth/react";
+import validateUser from "@/utils/validateUser";
 
 const mutations = {
-  async signup(parent, args) {
+  async addBlog(parent, args, context) {
+    validateUser(context);
+
     const { input } = args;
-    if (!(input.name && input.email && input.password)) {
-      throw new GraphQLError("Please provide all credentials");
+    // const { deltaOne, deltaTwo, userId } = input;
+
+    let blogToBeAdded = { deltaOne: input.deltaOne, userId: input.userId };
+
+    if (input.deltaTwo) {
+      blogToBeAdded.deltaTwo = input.deltaTwo;
     }
 
-    const saltRounds = 10;
+    const addBlog = await Blog.create(blogToBeAdded);
 
-    let hashedPassword = bcrypt.hashSync(input.password, saltRounds);
+    return addBlog;
+  },
+  async updateBlog(parent, args, context) {
+    validateUser(context);
 
-    // const confirmPassword = bcrypt.compareSync(input.password, hashedPassword);
+    const { input } = args;
 
-    console.log("hashed password =>", hashedPassword);
+    let blogToBeUpdated = { deltaOne: input.deltaOne };
 
-    const newUser = " await User.create(input)";
-    // return newUser;
+    if (input.deltaTwo) {
+      blogToBeUpdated.deltaTwo = input.deltaTwo;
+    }
+
+    const updatedBlog = await Blog.findOneAndUpdate(
+      {
+        _id: input.blogId,
+      },
+      blogToBeUpdated,
+    );
+
+    return updatedBlog;
+  },
+
+  async deleteBlog(parent, args, context) {
+    validateUser(context);
+
+    const { blogId } = args;
+
+    const blogToBeDeleted = await Blog.findOneAndDelete({
+      _id: blogId,
+    });
+
+    return blogToBeDeleted;
   },
 };
 

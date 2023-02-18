@@ -31,8 +31,8 @@ const typeDefs = /* GraphQL */ `
 
   type Query {
     user(_id: String): User
-    usersBlogs(_id: String): [Blog]
-    usersBlog(_id: String): Blog
+    usersAllBlogs(userId: String): [Blog]
+    usersSingleBlog(_id: String): Blog
     blogs: [Blog]
     users: [User]
   }
@@ -46,11 +46,12 @@ const typeDefs = /* GraphQL */ `
   input UpdateBlogInput {
     deltaOne: String
     deltaTwo: String
+    blogId: String
   }
 
   type Mutation {
     addBlog(input: AddBlogInput): Blog
-    deleteBlog(_id: String): Boolean
+    deleteBlog(blogId: String): [Blog]
     updateBlog(input: UpdateBlogInput): Blog
   }
 `;
