@@ -1,6 +1,7 @@
 import User from "@/models/userModel";
 import Blog from "@/models/blogModel";
 import axios from "axios";
+import { GraphQLError } from "graphql";
 
 const queries = {
   async user(parent, args, _context) {
@@ -33,6 +34,11 @@ const queries = {
   },
   async users(parent, args, context) {
     // context.hea
+    const { session } = context;
+    if (!session) {
+      throw new GraphQLError("login to get access to this resource");
+    }
+    console.log("session users Query ->", session);
     const getAllUsers = await User.find({});
     return getAllUsers;
   },
