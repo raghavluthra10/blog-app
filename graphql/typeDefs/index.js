@@ -14,6 +14,7 @@ const typeDefs = /* GraphQL */ `
   }
 
   type Comment {
+    _id: String
     userId: String
     comment: String
   }
@@ -35,6 +36,7 @@ const typeDefs = /* GraphQL */ `
     usersSingleBlog(_id: String): Blog
     blogs: [Blog]
     users: [User]
+    getAllComments(blogId: String): [Comment]
   }
 
   input AddBlogInput {
@@ -53,6 +55,8 @@ const typeDefs = /* GraphQL */ `
     addBlog(input: AddBlogInput): Blog
     deleteBlog(blogId: String): [Blog]
     updateBlog(input: UpdateBlogInput): Blog
+    addComment(comment: String, userId: String, blogId: String): Comment
+    deleteComment(blogId: String, commentId: String): Comment
   }
 `;
 

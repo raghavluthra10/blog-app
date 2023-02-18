@@ -40,6 +40,17 @@ const queries = {
     const getAllUsers = await User.find({});
     return getAllUsers;
   },
+  async getAllComments(parent, args, context) {
+    validateUser(context);
+    const { blogId } = args;
+
+    const allblogs = await Blog.find({ _id: blogId });
+    const extractCommentsFromBlogs = allblogs.reduce((accumulator, blog) => {
+      return accumulator.concat(blog.comments);
+    }, []);
+
+    return extractCommentsFromBlogs;
+  },
 };
 
 export default queries;
