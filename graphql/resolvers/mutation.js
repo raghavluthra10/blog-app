@@ -8,74 +8,92 @@ import validateUser from "@/utils/validateUser";
 
 const mutations = {
   async addBlog(parent, args, context) {
-    validateUser(context);
+    try {
+      validateUser(context);
 
-    const { input } = args;
-    // const { deltaOne, deltaTwo, userId } = input;
+      const { input } = args;
 
-    let blogToBeAdded = { deltaOne: input.deltaOne, userId: input.userId };
+      let blogToBeAdded = { deltaOne: input.deltaOne, userId: input.userId };
 
-    if (input.deltaTwo) {
-      blogToBeAdded.deltaTwo = input.deltaTwo;
+      if (input.deltaTwo) {
+        blogToBeAdded.deltaTwo = input.deltaTwo;
+      }
+
+      const addBlog = await Blog.create(blogToBeAdded);
+
+      return addBlog;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
     }
-
-    const addBlog = await Blog.create(blogToBeAdded);
-
-    return addBlog;
   },
   async updateBlog(parent, args, context) {
-    validateUser(context);
+    try {
+      validateUser(context);
 
-    const { input } = args;
+      const { input } = args;
 
-    let blogToBeUpdated = { deltaOne: input.deltaOne };
+      let blogToBeUpdated = { deltaOne: input.deltaOne };
 
-    if (input.deltaTwo) {
-      blogToBeUpdated.deltaTwo = input.deltaTwo;
+      if (input.deltaTwo) {
+        blogToBeUpdated.deltaTwo = input.deltaTwo;
+      }
+
+      const updatedBlog = await Blog.findOneAndUpdate(
+        {
+          _id: input.blogId,
+        },
+        blogToBeUpdated,
+      );
+
+      return updatedBlog;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
     }
-
-    const updatedBlog = await Blog.findOneAndUpdate(
-      {
-        _id: input.blogId,
-      },
-      blogToBeUpdated,
-    );
-
-    return updatedBlog;
   },
-
   async deleteBlog(parent, args, context) {
-    validateUser(context);
+    try {
+      validateUser(context);
 
-    const { blogId } = args;
+      const { blogId } = args;
 
-    const blogToBeDeleted = await Blog.findOneAndDelete({
-      _id: blogId,
-    });
+      const blogToBeDeleted = await Blog.findOneAndDelete({
+        _id: blogId,
+      });
 
-    // make sure all documents of likes and comments
-    // associated with this post also get deleted
+      // make sure all documents of likes and comments
+      // associated with this post also get deleted
 
-    return blogToBeDeleted;
+      return blogToBeDeleted;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async addComment(parent, args, context) {
-    validateUser(context);
-    const { comment, userId, blogId } = args;
+    try {
+      validateUser(context);
+      const { comment, userId, blogId } = args;
 
-    const addCommentToBlog = {
-      comment,
-      userId,
-    };
+      const addCommentToBlog = {
+        comment,
+        userId,
+      };
 
-    const updateComment = await Blog.findOneAndUpdate(
-      { _id: blogId },
-      {
-        $push: { comments: addCommentToBlog },
-      },
-      { new: true },
-    );
+      const updateComment = await Blog.findOneAndUpdate(
+        { _id: blogId },
+        {
+          $push: { comments: addCommentToBlog },
+        },
+        { new: true },
+      );
 
-    return updateComment;
+      return updateComment;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async deleteComment(parent, args, context) {
     try {
