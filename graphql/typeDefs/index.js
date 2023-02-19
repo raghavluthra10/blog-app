@@ -19,13 +19,20 @@ const typeDefs = /* GraphQL */ `
     comment: String
   }
 
+  type Like {
+    _id: String
+    userId: String
+    name: String
+    email: String
+  }
+
   type Blog {
     _id: String
     deltaOne: String
     deltaTwo: String
     userId: String
     comments: [Comment]
-    likes: [String]
+    likes: [Like]
     createdAt: String
     updatedAt: String
   }
@@ -37,6 +44,7 @@ const typeDefs = /* GraphQL */ `
     blogs: [Blog]
     users: [User]
     getAllComments(blogId: String): [Comment]
+    blogLikes(blogId: String): [Like]
   }
 
   input AddBlogInput {
@@ -57,6 +65,8 @@ const typeDefs = /* GraphQL */ `
     updateBlog(input: UpdateBlogInput): Blog
     addComment(comment: String, userId: String, blogId: String): Comment
     deleteComment(blogId: String, commentId: String): Comment
+    likeBlog(blogId: String, userId: String): Blog
+    unlikeBlog(blogId: String, userId: String): Blog
   }
 `;
 

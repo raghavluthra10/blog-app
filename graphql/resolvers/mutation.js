@@ -53,6 +53,9 @@ const mutations = {
       _id: blogId,
     });
 
+    // make sure all documents of likes and comments
+    // associated with this post also get deleted
+
     return blogToBeDeleted;
   },
   async addComment(parent, args, context) {
@@ -64,7 +67,6 @@ const mutations = {
       userId,
     };
 
-    console.log("addCommentToBlog =>", addCommentToBlog, blogId);
     const updateComment = await Blog.findOneAndUpdate(
       { _id: blogId },
       {
@@ -95,6 +97,59 @@ const mutations = {
 
       return comment;
     } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
+  },
+  async likeBlog(parent, args, context) {
+    try {
+      validateUser(context);
+
+      const { blogId, userId } = args;
+
+      const { session } = await context;
+
+      const { user } = session;
+
+      const likeToBeAdded = {
+        userId: userId,
+        name: user.name,
+        email: user.email,
+      };
+
+      const like = await Blog.findOneAndUpdate(
+        { _id: blogId },
+        { $push: { likes: likeToBeAdded } },
+        { new: true },
+      );
+
+      return like;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
+  },
+  async unlikeBlog(parent, args, context) {
+    try {
+      validateUser(context);
+
+      const { blogId, userId } = args;
+
+      const removeLike = await Blog.findByIdAndUpdate(
+        blogId,
+        {
+          $pull: {
+            likes: { userId: userId },
+          },
+        },
+        {
+          new: true,
+        },
+      );
+
+      return removeLike;
+    } catch (error) {
+      console.log(error);
       throw new GraphQLError(error.message);
     }
   },

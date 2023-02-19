@@ -51,6 +51,22 @@ const queries = {
 
     return extractCommentsFromBlogs;
   },
+  async blogLikes(parents, args, context) {
+    try {
+      validateUser(context);
+
+      const { blogId } = args;
+
+      const blog = await Blog.findById(blogId);
+
+      const extractLikesFromBlog = blog.likes;
+
+      return extractLikesFromBlog;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
+  },
 };
 
 export default queries;
