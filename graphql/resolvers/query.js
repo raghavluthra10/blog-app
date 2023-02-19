@@ -5,51 +5,84 @@ import { GraphQLError } from "graphql";
 import validateUser from "@/utils/validateUser";
 
 const queries = {
-  async user(parent, args, _context) {
-    const { _id } = args;
-    console.log("_id =>", _id);
-    const user = await User.findById(_id);
+  async user(parent, args, context) {
+    try {
+      const { _id } = args;
+      console.log("_id =>", _id);
+      const user = await User.findById(_id);
 
-    return user;
+      return user;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
-  async blogs(_parents, _args, _context) {
-    const blogs = await Blog.find();
-    return blogs;
-  },
-  async usersAllBlogs(parent, args) {
-    const { userId } = args;
-    const usersAllBlogs = await Blog.find({
-      userId: userId,
-    });
+  async blogs(parents, args, context) {
+    try {
+      validateUser(context);
 
-    return usersAllBlogs;
+      const blogs = await Blog.find();
+      return blogs;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
+  },
+  async usersAllBlogs(parent, args, context) {
+    try {
+      validateUser(context);
+      const { userId } = args;
+      const usersAllBlogs = await Blog.find({
+        userId: userId,
+      });
+
+      return usersAllBlogs;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async usersSingleBlog(parent, args, context) {
-    validateUser(context);
-    const { _id } = args;
-    const blogId = 1;
-    const usersDesiredBlog = await Blog.find({
-      userId: _id,
-      _id: blogId,
-    });
-    return usersDesiredBlog;
+    try {
+      validateUser(context);
+      const { _id } = args;
+      const blogId = 1;
+      const usersDesiredBlog = await Blog.find({
+        userId: _id,
+        _id: blogId,
+      });
+      return usersDesiredBlog;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async users(parent, args, context) {
-    validateUser(context);
-
-    const getAllUsers = await User.find({});
-    return getAllUsers;
+    try {
+      validateUser(context);
+      const getAllUsers = await User.find({});
+      return getAllUsers;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async getAllComments(parent, args, context) {
-    validateUser(context);
-    const { blogId } = args;
+    try {
+      validateUser(context);
 
-    const allblogs = await Blog.find({ _id: blogId });
-    const extractCommentsFromBlogs = allblogs.reduce((accumulator, blog) => {
-      return accumulator.concat(blog.comments);
-    }, []);
+      const { blogId } = args;
 
-    return extractCommentsFromBlogs;
+      const allblogs = await Blog.find({ _id: blogId });
+      const extractCommentsFromBlogs = allblogs.reduce((accumulator, blog) => {
+        return accumulator.concat(blog.comments);
+      }, []);
+
+      return extractCommentsFromBlogs;
+    } catch (error) {
+      console.log(error);
+      throw new GraphQLError(error.message);
+    }
   },
   async blogLikes(parents, args, context) {
     try {
