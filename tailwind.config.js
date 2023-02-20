@@ -8,6 +8,9 @@ module.exports = {
   ],
   theme: {
     extend: {
+      screens: {
+        mobile: "450px",
+      },
       spacing: {
         104: "28rem",
         112: "32rem",
