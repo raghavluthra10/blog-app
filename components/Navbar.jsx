@@ -49,7 +49,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex p-4 dark:bg-indigo-900 bg-sky-200  dark:text-indigo-200 bg-zinc-900 backdrop-blur-md border-b border-zinc-900 sticky top-0  ">
+    <div className="flex p-4 dark:bg-indigo-900 bg-sky-200  dark:text-indigo-200 backdrop-blur-md border-b border-zinc-900 sticky top-0  ">
       <div className="ml-4">logo</div>
       <div className="grow"></div>
       <div className="mr-4">Explore</div>
