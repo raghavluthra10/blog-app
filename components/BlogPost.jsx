@@ -15,20 +15,20 @@ export default function BlogPost({ thumbnail, title }) {
   };
 
   return (
-    <div className="dark:bg-slate-900 bg-slate-200 dark:text-slate-200 text-slate-900 p-4 border rounded-lg flex flex-col cursor-pointer ">
+    <div className=" dark:bg-indigo-800 bg-sky-200 dark:text-indigo-200 text-zinc-900 p-4 rounded-lg flex flex-col cursor-pointer dark:border-transparent border border-zinc-900">
       <img src={thumbnailImage} alt="" className="object-fill rounded-lg " />
       <h1 className="text-2xl mt-4 p-2">{blogTitle}</h1>
 
-      <div className="flex mt-4 border rounded-lg dark:border-slate-200">
+      <div className="flex mt-4 border rounded-lg dark:border-zinc-200 border-zinc-900">
         <button
           onClick={likeBlog}
-          className="hover:bg-gray-200 rounded-lg w-full grid p-2"
+          className="hover:bg-zinc-200 rounded-lg w-full grid p-2"
         >
           <Heart className="place-self-center " />
         </button>
         <button
           onClick={commentOnBlog}
-          className="hover:bg-gray-200 rounded-lg w-full grid p-2"
+          className="hover:bg-zinc-200 rounded-lg w-full grid p-2"
         >
           <MessageSquare className="place-self-center" />
         </button>
