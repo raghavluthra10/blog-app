@@ -1,6 +1,8 @@
+import { useRouter } from "next/router";
 import React from "react";
 import { Moon, Sun } from "react-feather";
 import If from "./If";
+import { signIn, signOut, getSession, useSession } from "next-auth/react";
 
 const themeEnums = {
   1: "dark",
@@ -9,6 +11,8 @@ const themeEnums = {
 
 export default function Navbar() {
   const [darkMode, setDarkMode] = React.useState(true);
+
+  const router = useRouter();
 
   const checkAndApplyTheme = () => {
     if (localStorage.theme === themeEnums[1]) {
@@ -21,6 +25,7 @@ export default function Navbar() {
   };
 
   React.useEffect(() => {
+    // check if user is logged in and on the basis of that render the login/logout button
     if (!localStorage.getItem("theme")) {
       localStorage.setItem("theme", themeEnums[1]);
     }
@@ -44,7 +49,7 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex p-4 bg-gray-50 dark:bg-slate-900 text-slate-900 dark:text-gray-50">
+    <div className="flex p-4 bg-gray-200 dark:bg-gray-900 text-gray-900 dark:text-gray-200 backdrop-blur-md ">
       <div className="ml-4">logo</div>
       <div className="grow"></div>
       <div className="mr-4">Explore</div>
@@ -58,7 +63,9 @@ export default function Navbar() {
           <Sun />
         </If>
       </button>
-      <button>Login</button>
+      <button className="mr-4" onClick={() => router.push("/login")}>
+        Login
+      </button>
     </div>
   );
 }
