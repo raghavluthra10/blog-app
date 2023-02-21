@@ -3,15 +3,19 @@ import Blog from "@/models/blogModel";
 import axios from "axios";
 import { GraphQLError } from "graphql";
 import validateUser from "@/utils/validateUser";
+import data from "../../data";
 
 const queries = {
   async user(parent, args, context) {
     try {
-      const { _id } = args;
-      console.log("_id =>", _id);
-      const user = await User.findById(_id);
+      // const { _id } = args;
+      // const user = await User.findById(_id);
 
-      return user;
+      const { session } = await context;
+
+      return session.user;
+
+      // return user;
     } catch (error) {
       console.log(error);
       throw new GraphQLError(error.message);
@@ -97,6 +101,15 @@ const queries = {
       return extractLikesFromBlog;
     } catch (error) {
       console.log(error);
+      throw new GraphQLError(error.message);
+    }
+  },
+  getFakeData(parent, args, context) {
+    try {
+      validateUser(context);
+
+      return data;
+    } catch (error) {
       throw new GraphQLError(error.message);
     }
   },
