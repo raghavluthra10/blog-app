@@ -2,7 +2,13 @@ import React from "react";
 import Image from "next/image";
 import { Heart, MessageSquare } from "react-feather";
 
-export default function BlogPost({ thumbnail, title, author, postedOn }) {
+export default function BlogPost({
+  thumbnail,
+  title,
+  author,
+  postedOn,
+  onClick,
+}) {
   const thumbnailImage = thumbnail ? thumbnail : "/gun.png";
   const blogTitle = title ? title : "This is a random temprary title";
 
@@ -15,7 +21,10 @@ export default function BlogPost({ thumbnail, title, author, postedOn }) {
   };
 
   return (
-    <div className="max-w-2xl min-w-56 dark:bg-indigo-800 bg-sky-200 dark:text-indigo-200 text-zinc-900 p-4 rounded-lg flex flex-col cursor-pointer dark:border-transparent border border-zinc-900">
+    <div
+      className="max-w-2xl min-w-56 dark:bg-indigo-800 bg-sky-200 dark:text-indigo-200 text-zinc-900 p-4 rounded-lg flex flex-col cursor-pointer dark:border-transparent border border-zinc-900"
+      onClick={onClick}
+    >
       <div className="flex justify-between mb-2 text-md mobile:text-2xl">
         <section>{author ? author : "Raghav Luthra"}</section>
         <section>{postedOn ? postedOn : "22-2-2020"}</section>

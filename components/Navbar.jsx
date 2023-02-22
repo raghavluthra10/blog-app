@@ -2,6 +2,7 @@ import { useRouter } from "next/router";
 import React from "react";
 import { Moon, Sun } from "react-feather";
 import If from "./If";
+import Link from "next/link";
 import { signIn, signOut, getSession, useSession } from "next-auth/react";
 
 const themeEnums = {
@@ -49,11 +50,18 @@ export default function Navbar() {
   };
 
   return (
-    <div className="flex p-4 dark:bg-indigo-900 bg-sky-200  dark:text-indigo-200 backdrop-blur-sm border-b border-zinc-900 sticky top-0  ">
-      <div className="ml-4">logo</div>
+    <div className="flex p-4 dark:bg-indigo-900 bg-sky-200 dark:text-indigo-200 backdrop-blur-sm border-b border-zinc-900 sticky top-0 ">
+      <Link href="/">
+        <div className="ml-4">logo</div>
+      </Link>
       <div className="grow"></div>
-      <div className="mr-4">Explore</div>
-      <div className="mr-4">Profile</div>
+
+      <Link href="/explore">
+        <div className="mr-4">Explore</div>
+      </Link>
+      <Link href="/profile/index">
+        <div className="mr-4">Profile</div>
+      </Link>
       <button className="mr-4 " onClick={toggleTheme}>
         <If condition={darkMode}>
           <Moon />

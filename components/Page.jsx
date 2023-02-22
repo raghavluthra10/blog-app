@@ -1,8 +1,12 @@
 import React from "react";
 
-function Page({ children }) {
+function Page({ children, className: extraClass }) {
   return (
-    <div className="dark:bg-indigo-900 bg-sky-100 dark:text-indigo-200 text-zinc-900 p-4 min-h-screen">
+    <div
+      className={`${
+        extraClass && extraClass
+      } dark:bg-indigo-900 bg-sky-100 dark:text-indigo-200 text-zinc-900 p-4 min-h-screen`}
+    >
       {children}
     </div>
   );
