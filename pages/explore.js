@@ -1,10 +1,10 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import client from "@/apollo-client";
 import { signIn, signOut, getSession } from "next-auth/react";
 import Page from "@/components/Page";
 import PageLayout from "@/layouts/PageLayout";
 import If from "@/components/If";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useLazyQuery } from "@apollo/client";
 import Spinner from "@/components/Spinner";
 import BlogPost from "@/components/BlogPost";
 import Button from "@/components/Button";
@@ -21,7 +21,9 @@ const GET_FAKE_DATA = gql`
 `;
 const Explore = (props) => {
   console.log("session =>", props);
-  const { loading, error, data } = useQuery(GET_FAKE_DATA);
+
+  const [getFateDataOnDemand, { loading, error, data }] =
+    useLazyQuery(GET_FAKE_DATA);
 
   if (error) {
     console.log(error.message);
@@ -36,13 +38,14 @@ const Explore = (props) => {
     );
   }
 
-  console.log(data.getFakeData);
+  // console.log("fake data =>", fakeData);
   const details = (e, id) => {
     console.log(e, id);
   };
 
   const fetchAgain = () => {
     console.log("fetchAgain");
+    getFateDataOnDemand();
   };
 
   return (
