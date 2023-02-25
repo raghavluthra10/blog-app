@@ -7,6 +7,8 @@ import If from "@/components/If";
 import { gql, useQuery } from "@apollo/client";
 import Spinner from "@/components/Spinner";
 import BlogPost from "@/components/BlogPost";
+import Button from "@/components/Button";
+import Avatar from "@/components/Avatar";
 
 const GET_FAKE_DATA = gql`
   query GetFakeData {
@@ -17,7 +19,8 @@ const GET_FAKE_DATA = gql`
     }
   }
 `;
-const Explore = ({ session }) => {
+const Explore = (props) => {
+  console.log("session =>", props);
   const { loading, error, data } = useQuery(GET_FAKE_DATA);
 
   if (error) {
@@ -38,8 +41,26 @@ const Explore = ({ session }) => {
     console.log(e, id);
   };
 
+  const fetchAgain = () => {
+    console.log("fetchAgain");
+  };
+
   return (
-    <Page className="pt-24">
+    <Page className="pt-24 flex flex-col items-center ">
+      <div className=" flex justify-between items-center	mb-16 w-72 tab:w-112 largeMobile:w-104 mobile:w-96   ">
+        <div className="flex items-center	">
+          {/* name and photo will be inline */}
+          <Avatar
+            className="mr-4"
+            src="https://tecdn.b-cdn.net/img/new/avatars/2.webp"
+          />
+          <span>Raghav Luthra</span>
+        </div>
+        {/* this button will redirect to "addBlogPage" */}
+        <Button border={true} onClick={fetchAgain}>
+          New Blog
+        </Button>
+      </div>
       <If condition={data?.getFakeData?.length > 0}>
         {data?.getFakeData?.map((d) => {
           return (
@@ -47,7 +68,17 @@ const Explore = ({ session }) => {
               <div className="mb-16 flex flex-col items-center		">
                 <BlogPost
                   key={d.id}
+                  // thumbnail={d.thumbnail}
+                  thumbnail="https://tecdn.b-cdn.net/img/new/avatars/2.webp"
+                  title={d.userId}
+                  onClick={(e) => details(e, d.id)}
+                />
+              </div>
+              <div className="mb-16 flex flex-col items-center		">
+                <BlogPost
+                  key={d.id}
                   thumbnail={d.thumbnail}
+                  // thumbnail="https://tecdn.b-cdn.net/img/new/avatars/2.webp"
                   title={d.userId}
                   onClick={(e) => details(e, d.id)}
                 />

@@ -3,12 +3,17 @@ import ProgressBar from "@/components/ProgressBar";
 import Navbar from "@/components/Navbar";
 import React from "react";
 import BlogPost from "@/components/BlogPost";
+import Page from "@/components/Page";
 
 function components() {
   return (
-    <div className="flex flex-col">
+    <Page className="flex flex-col">
       <Navbar />
-      <Button onClick={() => console.log("button component")} size={1}>
+      <Button
+        border={true}
+        onClick={() => console.log("button component")}
+        size={1}
+      >
         Click
       </Button>
       <Button onClick={() => console.log("button component")} size={2}>
@@ -22,12 +27,12 @@ function components() {
       <ProgressBar />
       <br />
       <br />
-      <BlogPost />
       {/* card component for blogs view on explore and myBlogs page */}
+      <BlogPost />
       {/* likes display component for when a user clicks on likes and sees who all liked it */}
       {/* add comment component */}
       {/* display comments component */}
-    </div>
+    </Page>
   );
 }
 

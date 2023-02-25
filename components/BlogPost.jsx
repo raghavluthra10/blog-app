@@ -22,7 +22,7 @@ export default function BlogPost({
 
   return (
     <div
-      className="max-w-2xl min-w-56 dark:bg-indigo-800 bg-sky-200 dark:text-indigo-200 text-zinc-900 p-4 rounded-lg flex flex-col cursor-pointer dark:border-transparent border border-zinc-900"
+      className="w-72 tab:w-112 largeMobile:w-104 mobile:w-96  dark:bg-indigo-800 bg-sky-200 dark:text-indigo-200 text-zinc-900 p-4 rounded-lg flex flex-col cursor-pointer dark:border-transparent border border-zinc-900"
       onClick={onClick}
     >
       <div className="flex justify-between mb-2 text-md mobile:text-2xl">
