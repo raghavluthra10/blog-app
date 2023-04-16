@@ -2,7 +2,7 @@ import React from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-function UseAuth() {
+function UseLoggedIn() {
   const router = useRouter();
 
   React.useEffect(() => {
@@ -13,4 +13,4 @@ function UseAuth() {
   }, []);
 }
 
-export default UseAuth;
+export default UseLoggedIn;

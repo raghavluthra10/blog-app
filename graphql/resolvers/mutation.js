@@ -1,9 +1,6 @@
 import User from "@/models/userModel";
 import Blog from "@/models/blogModel";
-import { Jwt } from "jsonwebtoken";
-import bcrypt from "bcrypt";
 import { GraphQLError } from "graphql";
-import { signIn } from "next-auth/react";
 import validateUser from "@/utils/validateUser";
 
 const mutations = {
@@ -61,9 +58,6 @@ const mutations = {
       const blogToBeDeleted = await Blog.findOneAndDelete({
         _id: blogId,
       });
-
-      // make sure all documents of likes and comments
-      // associated with this post also get deleted
 
       return blogToBeDeleted;
     } catch (error) {

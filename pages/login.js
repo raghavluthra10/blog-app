@@ -1,40 +1,60 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { signIn, signOut, getSession, useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import Page from "@/components/Page";
+import Button from "@/components/Button";
+import UseLoggedOut from "@/hooks/use-loggedOut";
 
 const Login = () => {
-  const session = async () => {
-    const currentSession = await getSession();
-    console.log("current session =>", currentSession);
+  // UseLoggedOut();
+  const [email, setEmail] = useState("");
+  const router = useRouter();
+  const handleUserDetails = async () => {
+    const session = await getSession();
+
+    if (session) {
+      localStorage.setItem("user", JSON.stringify(session));
+      router.push("/explore");
+    }
+
+    console.log("handleUserSession =>", session);
+  };
+
+  useEffect(() => {
+    // handleUserDetails();
+  }, []);
+
+  const getSessionFunction = async () => {
+    const currentSession = localStorage.getItem("user");
+
+    console.log(currentSession);
+    // console.log(currentSession);
+  };
+
+  const signInWithGoogle = async (e) => {
+    e.preventDefault();
+
+    await signIn("google", {
+      callbackUrl: "/explore",
+      // redirect: false,
+    });
   };
 
   return (
-    <>
-      <button onClick={session}>get session</button>
+    <Page>
+      <Button onClick={() => localStorage.removeItem("user")}>
+        Remove session from localStorage
+      </Button>
+      <Button onClick={getSessionFunction}>get session</Button>
       <h1>Click here to sign in</h1>
       <br />
-      <button onClick={() => signIn()}>Sign in</button>
+
+      <Button onClick={signInWithGoogle}>Sign in</Button>
+
       <br />
-      <button onClick={() => signOut()}>Sign out</button>
-    </>
+      <Button onClick={() => signOut({ redirect: false })}>Sign out</Button>
+    </Page>
   );
 };
 
 export default Login;
-
-export async function getServerSideProps(context) {
-  const session = await getSession(context);
-  console.log("getServerSession from login =>", session);
-
-  // if (session) {
-  //   return {
-  //     redirect: {
-  //       destination: "/explore",
-  //       permanent: false,
-  //     },
-  //   };
-  // }
-
-  return {
-    props: { session },
-  };
-}

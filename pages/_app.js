@@ -1,12 +1,15 @@
 import client from "@/apollo-client";
 import "@/styles/globals.css";
+import { useSession } from "next-auth/react";
 import { gql } from "@apollo/client";
-import { SessionProvider } from "next-auth/react";
+import { SessionProvider, getSession } from "next-auth/react";
 import React from "react";
 import { ApolloProvider } from "@apollo/client";
 
-export default function App({ Component, pageProps, session }) {
-  console.log("App component renders");
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   if (Component.getLayout) {
     return Component.getLayout(
       <ApolloProvider client={client}>
@@ -23,25 +26,3 @@ export default function App({ Component, pageProps, session }) {
     );
   }
 }
-
-// export async function getServerSideProps(context) {
-//   const getFakeData = gql`
-//     query {
-//       getFakeData {
-//         userId
-//         id
-//         thumbnail
-//       }
-//     }
-//   `;
-
-//   const fakeData = await client.query({
-//     query: getFakeData,
-//   });
-
-//   console.log("context from _api =>", fakeData);
-
-//   return {
-//     props: { ctx: fakeData },
-//   };
-// }

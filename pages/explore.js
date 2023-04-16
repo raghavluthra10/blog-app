@@ -9,6 +9,8 @@ import Spinner from "@/components/Spinner";
 import BlogPost from "@/components/BlogPost";
 import Button from "@/components/Button";
 import Avatar from "@/components/Avatar";
+import UseLoggedIn from "@/hooks/use-loggedIn";
+import UseDetails from "@/hooks/use-details";
 
 const GET_FAKE_DATA = gql`
   query GetFakeData {
@@ -19,8 +21,10 @@ const GET_FAKE_DATA = gql`
     }
   }
 `;
+
 const Explore = (props) => {
-  console.log("session =>", props);
+  // UseDetails();
+  UseLoggedIn();
 
   const [getFateDataOnDemand, { loading, error, data }] =
     useLazyQuery(GET_FAKE_DATA);
@@ -97,11 +101,3 @@ const Explore = (props) => {
 export default Explore;
 
 Explore.getLayout = PageLayout;
-
-// export async function getServerSideProps(context) {
-//   const session = await getSession(context);
-
-//   return {
-//     props: { session },
-//   };
-// }

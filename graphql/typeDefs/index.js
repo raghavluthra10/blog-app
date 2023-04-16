@@ -37,6 +37,14 @@ const typeDefs = /* GraphQL */ `
     updatedAt: String
   }
 
+  type FakeData {
+    userId: Int
+    id: Int
+    title: String
+    completed: Boolean
+    thumbnail: String
+  }
+
   type Query {
     user(_id: String): User
     usersAllBlogs(userId: String): [Blog]
@@ -45,6 +53,7 @@ const typeDefs = /* GraphQL */ `
     users: [User]
     getAllComments(blogId: String): [Comment]
     blogLikes(blogId: String): [Like]
+    getFakeData: [FakeData]
   }
 
   input AddBlogInput {
